@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Surprise 🎉</title>
+
+<style>
+/* ===== Background ===== */
+body {
+  margin: 0;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(120deg,#ff9a9e,#fad0c4,#fbc2eb,#c1fba4,#a1c4fd);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+  min-height: 100vh;
+  color: #333;
+  overflow-x: hidden;
+}
+
+@keyframes gradientBG {
+  0% {background-position:0% 50%;}
+  50% {background-position:100% 50%;}
+  100% {background-position:0% 50%;}
+}
+
+.hidden { display: none; }
+
+img {
+  width: 90%;
+  max-width: 320px;
+  border-radius: 15px;
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 1s forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+.msg {
+  font-size: 18px;
+  margin: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+/* ===== Button ===== */
+button {
+  margin: 25px;
+  padding: 12px 24px;
+  font-size: 18px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(45deg,#fbc2eb,#a6c1ee);
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+button:hover {
+  transform: scale(1.08);
+}
+
+/* ===== SIDE-TO-SIDE BALLOONS ===== */
+.balloons {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.balloon {
+  position: absolute;
+  left: -80px;
+  top: calc(var(--i) * 15%);
+  width: 40px;
+  height: 55px;
+  border-radius: 50%;
+  animation: moveSide 14s linear infinite;
+  animation-delay: calc(var(--i) * 2s);
+  opacity: 0.85;
+}
+
+@keyframes moveSide {
+  0%   { transform: translateX(0) translateY(0); }
+  50%  { transform: translateX(60vw) translateY(-12px); }
+  100% { transform: translateX(130vw) translateY(10px); }
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🎵 Music (starts on click) -->
+<audio id="bgMusic" loop>
+  <source src="assets/music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- ✉️ Letter -->
+<div id="letter" onclick="startSurprise()">
+  <img src="assets/closed letter.png">
+  <p>📩 Tap to open</p>
+</div>
+
+<!-- ===== PAGE 1 ===== -->
+<div id="page1" class="hidden" style="position:relative;">
+
+  <div class="balloons">
+    <div class="balloon" style="--i:1; background:#ff6b6b;"></div>
+    <div class="balloon" style="--i:2; background:#feca57;"></div>
+    <div class="balloon" style="--i:3; background:#48dbfb;"></div>
+    <div class="balloon" style="--i:4; background:#1dd1a1;"></div>
+    <div class="balloon" style="--i:5; background:#9b59b6;"></div>
+  </div>
+
+  <p id="message" class="msg fade-in hidden">
+    💖 Happy Birthday! 💖<br><br>
+    This message is made just for you.<br>
+    Unaku epidi nu theriyala but I really miss you,
+    I just want you to be happy peaceful and stress-free
+    I really miss you<br>
+    May your day be filled with joy🎉
+  </p>
+
+  <div id="cake" class="hidden">
+    <img src="assets/cake.gif">
+  </div>
+
+  <div id="flowers" class="hidden">
+    <img src="assets/bouquet.gif">
+  </div>
+
+  <button id="continueBtn" class="hidden" onclick="goNext()">Continue 🎁</button>
+</div>
+
+<!-- ===== PAGE 2 ===== -->
+<div id="page2" class="hidden">
+  <img src="assets/birthday.gif">
+  <h2>🎂💐🎁 Happy Birthday! 🎁💐🎂</h2>
+  <p class="msg">May your day be as special as you and always be happy ever✨</p>
+  <button onclick="location.reload()">🎉 Replay 🎉</button>
+</div>
+
+<!-- 🎊 Confetti -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+<script>
+function startSurprise() {
+
+  // 🔊 PLAY MUSIC AFTER USER CLICK (MOBILE SAFE)
+  const music = document.getElementById("bgMusic");
+  music.play().catch(() => {});
+
+  document.getElementById("letter").style.display = "none";
+  document.getElementById("page1").classList.remove("hidden");
+
+  setTimeout(() => message.classList.remove("hidden"), 500);
+  setTimeout(() => cake.classList.remove("hidden"), 3000);
+  setTimeout(() => flowers.classList.remove("hidden"), 6000);
+  setTimeout(() => continueBtn.classList.remove("hidden"), 9000);
+}
+
+function goNext() {
+  page1.classList.add("hidden");
+  page2.classList.remove("hidden");
+  confetti({ particleCount: 180, spread: 90, origin:{y:0.6} });
+}
+</script>
+
+</body>
+</html>
